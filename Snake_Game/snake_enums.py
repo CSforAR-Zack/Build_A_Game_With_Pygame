@@ -1,3 +1,10 @@
+class AudioFile:
+    """Sound class to hold all audio files."""
+
+    eat: str = "audio/gulp.wav"
+    music: str = "audio/music.ogg"
+
+
 class Color:
     """Color class to store RGB values for a color."""
 

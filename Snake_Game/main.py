@@ -6,7 +6,7 @@ import pygame as pg
 from food import Food
 from game_manager import GameManager
 from snake import Snake
-from snake_enums import Color, Direction, State
+from snake_enums import AudioFile, Color, Direction, State
 
 
 def main():
@@ -16,6 +16,10 @@ def main():
     gm: GameManager = GameManager()
 
     pg.display.set_caption("Snake")
+
+    pg.mixer.music.load(AudioFile.music)
+    pg.mixer.music.set_volume(0.1)
+    pg.mixer.music.play(-1)
 
     while gm.state != State.end_game:
         menu_loop(gm)
@@ -110,6 +114,7 @@ def process_collisions(gm: GameManager, snake: Snake, food: Food) -> None:
     if snake.wall_hit() or snake.body_hit():
         gm.state = State.game_over
     elif snake.food_hit(food):
+        pg.mixer.Sound(AudioFile.eat).play()
         gm.score += 1
         snake.grow()
         food.move()
