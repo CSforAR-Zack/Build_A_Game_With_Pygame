@@ -1,3 +1,4 @@
+from food import Food
 from game_manager import GameManager
 from snake_enums import Color, Direction
 from square import Square
@@ -56,17 +57,25 @@ class Snake:
 
         return x_hit or y_hit
     
-    def body_hit(self) -> bool:
+    def body_hit(self, point: tuple = None) -> bool:
         """Check if if point is colliding with the snake body."""
         
-        start_index: int = 2
-        point: tuple = self.head.get_pos()
+        if point is None:
+            point: tuple = self.head.get_pos()
+            start_index: int = 2
+        else:
+            start_index: int = 0
 
         for index in range(start_index, len(self.segments)):
             segment: Segment = self.segments[index]
             if segment.get_pos() == point:
                 return True
         return False
+    
+    def food_hit(self, food: Food) -> bool:
+        """Check if head overlaps food."""
+
+        return self.head.get_pos() == food.get_pos()
 
 
 class Segment(Square):

@@ -2,6 +2,7 @@ import sys
 
 import pygame as pg
 
+from food import Food
 from game_manager import GameManager
 from snake import Snake
 from snake_enums import Color, Direction, State
@@ -40,8 +41,8 @@ def game_loop(gm: GameManager) -> None:
     """The main game loop."""
 
     snake: Snake = Snake(gm)
-    for i in range(10):
-        snake.grow()
+    food: Food = Food(gm, (0, 0))
+    food.move()
 
     while gm.state == State.in_game:
         gm.tick()
@@ -49,11 +50,12 @@ def game_loop(gm: GameManager) -> None:
 
         snake.move()
 
-        process_collisions(gm, snake)
+        process_collisions(gm, snake, food)
 
         # Update the screen
         gm.screen.fill(Color.bg)
         snake.draw()
+        food.draw()
         score_text(gm)
         pg.display.flip()
 
@@ -94,11 +96,17 @@ def process_events(gm: GameManager, snake: Snake=None) -> None:
                 snake.head.direction = Direction.left
 
 
-def process_collisions(gm: GameManager, snake: Snake) -> None:
+def process_collisions(gm: GameManager, snake: Snake, food: Food) -> None:
     """Process collisions."""
 
     if snake.wall_hit() or snake.body_hit():
         gm.state = State.game_over
+    elif snake.food_hit(food):
+        snake.grow()
+        food.move()
+
+        while snake.body_hit(food.get_pos()):
+            food.move()
 
 
 def menu_text(gm: GameManager) -> None:
