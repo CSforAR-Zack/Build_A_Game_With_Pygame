@@ -6,7 +6,7 @@ import pygame as pg
 from food import Food
 from game_manager import GameManager
 from snake import Snake
-from snake_enums import AudioFile, Color, Direction, State
+from snake_enums import AudioFile, Color, Direction, ImageFile, State
 
 
 def main():
@@ -38,8 +38,10 @@ def menu_loop(gm: GameManager) -> None:
     while gm.state == State.menu:
         process_events(gm)
 
+        background = load_background(gm)
+
         # Update the screen
-        gm.screen.fill(Color.bg)
+        gm.screen.blit(background, (0, 0))
         menu_text(gm)
         pg.display.flip()
 
@@ -56,12 +58,14 @@ def game_loop(gm: GameManager) -> None:
         gm.tick()
         process_events(gm, snake)
 
+        background = load_background(gm)
+
         snake.move()
 
         process_collisions(gm, snake, food)
 
         # Update the screen
-        gm.screen.fill(Color.bg)
+        gm.screen.blit(background, (0, 0))
         snake.draw()
         food.draw()
         score_text(gm)
@@ -78,11 +82,28 @@ def game_over_loop(gm: GameManager) -> None:
     while gm.state == State.game_over:
         process_events(gm)
 
+        background: pg.Surface = load_background(gm)
+
         # Update the screen
-        gm.screen.fill(Color.bg)
+        gm.screen.blit(background, (0, 0))
         game_over_text(gm)
         score_text(gm)
         pg.display.flip()
+
+
+def load_background(gm: GameManager) -> pg.Surface:
+    """Load the background image."""
+
+    if gm.state == State.menu:
+        file: str = ImageFile.menu_bg
+    elif gm.state == State.in_game:
+        file: str = ImageFile.game_bg
+    elif gm.state == State.game_over:
+        file: str = ImageFile.game_over_bg
+
+    background = pg.image.load(file)
+    background = pg.transform.scale(background, (gm.width, gm.height))
+    return background
 
 
 def process_events(gm: GameManager, snake: Snake=None) -> None:
@@ -127,12 +148,8 @@ def menu_text(gm: GameManager) -> None:
     """Display the menu text."""
 
     gm.screen.blit(
-        gm.large_font.render(">-<8==SNAKE==>", True, Color.text),
-        (gm.width * .2, gm.height * .45, gm.width, gm.height),
-    )
-    gm.screen.blit(
         gm.small_font.render("Press Enter to play.", True, Color.text),
-        (gm.width * .3, gm.height * .55, gm.width, gm.height),
+        (gm.width * .50, gm.height * .94, gm.width, gm.height),
     )
 
 
@@ -153,12 +170,8 @@ def game_over_text(gm: GameManager) -> None:
     """Display the game over text."""
 
     gm.screen.blit(
-        gm.large_font.render("GAME OVER", True, Color.text),
-        (gm.width * .29, gm.height * .45, gm.width, gm.height),
-    )
-    gm.screen.blit(
         gm.small_font.render("Press Enter to play again.", True, Color.text),
-        (gm.width * .23, gm.height * .55, gm.width, gm.height),
+        (gm.width * .1, gm.height * .93, gm.width, gm.height),
     )
 
 

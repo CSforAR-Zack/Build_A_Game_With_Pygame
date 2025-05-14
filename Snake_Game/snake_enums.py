@@ -28,6 +28,13 @@ class FontFiles:
 
     large: str = "fonts/Kenney_Future.ttf"
     small: str = "fonts/Kenney_Future.ttf"
+
+class ImageFile:
+    """Image class to hold all image files."""
+    
+    game_bg: str = "images/background.png"
+    menu_bg: str = "images/main_menu.png"
+    game_over_bg: str = "images/game_over.png"
     
 
 class State:
