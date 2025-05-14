@@ -1,3 +1,17 @@
+class Color:
+    """Color class to store RGB values for a color."""
+
+    bg: tuple = (0, 0, 0)
+    text: tuple = (237, 182, 43)
+
+
+class FontFiles:
+    """Font class to hold all font files."""
+
+    large: str = "fonts/Kenney_Future.ttf"
+    small: str = "fonts/Kenney_Future.ttf"
+    
+
 class State:
     """State class to represent the games states."""
 

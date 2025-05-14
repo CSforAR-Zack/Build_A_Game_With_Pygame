@@ -1,6 +1,7 @@
 import pygame as pg
+from pygame.font import Font
 
-from snake_enums import State
+from snake_enums import FontFiles, State
 
 
 class GameManager:
@@ -24,3 +25,8 @@ class GameManager:
         self.screen: pg.Surface = pg.display.set_mode((self.width, self.height))
 
         self.state: int = State.menu
+        self.score: int = 0
+        self.high_score: int = 0
+
+        self.large_font: pg.font.Font = pg.font.Font(FontFiles.large, 48)
+        self.small_font: pg.font.Font = pg.font.Font(FontFiles.small, 24)

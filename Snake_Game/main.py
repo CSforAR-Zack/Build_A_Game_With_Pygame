@@ -3,7 +3,7 @@ import sys
 import pygame as pg
 
 from game_manager import GameManager
-from snake_enums import State
+from snake_enums import Color, State
 
 
 def main():
@@ -30,7 +30,8 @@ def menu_loop(gm: GameManager) -> None:
         process_events(gm)
 
         # Update the screen
-        gm.screen.fill((0, 255, 0))
+        gm.screen.fill(Color.bg)
+        menu_text(gm)
         pg.display.flip()
 
 
@@ -41,7 +42,8 @@ def game_loop(gm: GameManager) -> None:
         process_events(gm)
 
         # Update the screen
-        gm.screen.fill((0, 0, 255))
+        gm.screen.fill(Color.bg)
+        score_text(gm)
         pg.display.flip()
 
 
@@ -52,7 +54,9 @@ def game_over_loop(gm: GameManager) -> None:
         process_events(gm)
 
         # Update the screen
-        gm.screen.fill((255, 0, 0))
+        gm.screen.fill(Color.bg)
+        game_over_text(gm)
+        score_text(gm)
         pg.display.flip()
 
 
@@ -67,6 +71,45 @@ def process_events(gm: GameManager) -> None:
         if event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
             gm.state = State.next_state(gm.state)
             break
+
+
+def menu_text(gm: GameManager) -> None:
+    """Display the menu text."""
+
+    gm.screen.blit(
+        gm.large_font.render(">-<8==SNAKE==>", True, Color.text),
+        (gm.width * .2, gm.height * .45, gm.width, gm.height),
+    )
+    gm.screen.blit(
+        gm.small_font.render("Press Enter to play.", True, Color.text),
+        (gm.width * .3, gm.height * .55, gm.width, gm.height),
+    )
+
+
+def score_text(gm: GameManager) -> None:
+    """Display the game text."""
+    
+    gm.screen.blit(
+        gm.small_font.render(f"Score: {gm.score}", True, Color.text),
+        (gm.width * .1, gm.height * .04, gm.width, gm.height),
+    )
+    gm.screen.blit(
+        gm.small_font.render(f"High Score: {gm.high_score}", True, Color.text),
+        (gm.width * .60, gm.height * .04, gm.width, gm.height),
+    )
+
+
+def game_over_text(gm: GameManager) -> None:
+    """Display the game over text."""
+
+    gm.screen.blit(
+        gm.large_font.render("GAME OVER", True, Color.text),
+        (gm.width * .29, gm.height * .45, gm.width, gm.height),
+    )
+    gm.screen.blit(
+        gm.small_font.render("Press Enter to play again.", True, Color.text),
+        (gm.width * .23, gm.height * .55, gm.width, gm.height),
+    )
 
 
 if __name__ == "__main__":
