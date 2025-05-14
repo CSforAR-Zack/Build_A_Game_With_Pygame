@@ -104,7 +104,7 @@ def load_background(gm: GameManager) -> pg.Surface:
     elif gm.state == State.game_over:
         file: str = ImageFile.game_over_bg
 
-    background = pg.image.load(file)
+    background: pg.Surface = pg.image.load(file)
     background = pg.transform.scale(background, (gm.width, gm.height))
     return background
 
@@ -178,7 +178,7 @@ def game_over_text(gm: GameManager) -> None:
     )
 
 
-def load_highscore() -> list:
+def load_highscore() -> int:
     """Load the high score."""
 
     try:

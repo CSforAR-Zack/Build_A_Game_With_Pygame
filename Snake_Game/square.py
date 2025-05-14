@@ -12,7 +12,7 @@ class Square:
         gm: GameManager,
         pos: tuple,
         color: tuple,
-        direction: Direction,
+        direction: int,
         image_file: str,
     ) -> None:
         self.gm: GameManager = gm
@@ -20,7 +20,7 @@ class Square:
         self.y: int = int(pos[1])
         self.size: int = gm.size
         self.color: tuple = color
-        self.direction: Direction = direction
+        self.direction: int = direction
 
         self.image: pg.Surface = pg.image.load(image_file)
         self.image: pg.Surface = pg.transform.scale(self.image, (gm.size, gm.size))
@@ -38,7 +38,7 @@ class Square:
         self.surface = pg.transform.rotate(self.image, degree)
         self.gm.screen.blit(self.surface, (self.x, self.y))
     
-    def get_rotation(self, direction: tuple) -> None:
+    def get_rotation(self, direction: tuple) -> int:
         """Orient the body part of the snake."""
 
         if direction == Direction.up:

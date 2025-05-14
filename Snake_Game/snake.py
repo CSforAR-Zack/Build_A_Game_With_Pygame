@@ -94,7 +94,7 @@ class Segment(Square):
         self,
         gm: GameManager,
         pos: tuple,
-        direction: Direction,
+        direction: int,
         image_file: str = ImageFile.body,
     ) -> None:
         
