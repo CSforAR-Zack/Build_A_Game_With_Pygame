@@ -1,6 +1,6 @@
 from food import Food
 from game_manager import GameManager
-from snake_enums import Color, Direction
+from snake_enums import Color, Direction, ImageFile
 from square import Square
 
 
@@ -9,9 +9,16 @@ class Snake:
 
     def __init__(self, gm: GameManager) -> None:
         self.gm: GameManager = gm
-        self.head: Segment = Segment(self.gm, gm.center(), Direction.up)
+        self.head: Segment = Segment(self.gm, gm.center(), Direction.up, ImageFile.head)
         
-        self.segments: list = [self.head]
+        tail: Segment = Segment(
+            self.gm,
+            (self.head.x, self.head.y + gm.size),
+            Direction.up,
+            ImageFile.tail,
+        )     
+
+        self.segments: list = [self.head, tail]
 
     def draw(self) -> None:
         """Render the snake to the screen."""
@@ -43,11 +50,13 @@ class Snake:
         new_y: int = (end.y + self.gm.size * -end.direction[1])
         segment: Segment = Segment(
             self.gm,
-            (new_x, new_y),
+            (end.x, end.y),
             end.direction,
         )
+        end.x = new_x
+        end.y = new_y
 
-        self.segments.append(segment)
+        self.segments.insert(-1, segment)
 
     def wall_hit(self) -> bool:
         """Check if the snake head is colliding with a wall."""
@@ -86,6 +95,7 @@ class Segment(Square):
         gm: GameManager,
         pos: tuple,
         direction: Direction,
+        image_file: str = ImageFile.body,
     ) -> None:
         
-        super().__init__(gm, pos, Color.snake, direction)
+        super().__init__(gm, pos, Color.snake, direction, image_file)

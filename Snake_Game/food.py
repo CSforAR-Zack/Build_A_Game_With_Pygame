@@ -1,7 +1,7 @@
 from random import randrange
 
 from game_manager import GameManager
-from snake_enums import Color, Direction
+from snake_enums import Color, Direction, ImageFile
 from square import Square
 
 
@@ -9,7 +9,7 @@ class Food(Square):
     """Food object to be consumed by snake."""
 
     def __init__(self, gm: GameManager, pos: tuple) -> None:
-        super().__init__(gm, pos, Color.food, Direction.up)
+        super().__init__(gm, pos, Color.food, Direction.up, ImageFile.food)
 
     def move(self) -> None:
         """Move food to random open location."""

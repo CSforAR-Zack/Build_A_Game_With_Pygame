@@ -31,7 +31,11 @@ class FontFiles:
 
 class ImageFile:
     """Image class to hold all image files."""
-    
+
+    body: str = "images/snake_body.png"
+    tail: str = "images/snake_tail.png"
+    head: str = "images/snake_head.png"
+    food: str = "images/food.png"    
     game_bg: str = "images/background.png"
     menu_bg: str = "images/main_menu.png"
     game_over_bg: str = "images/game_over.png"
