@@ -1,3 +1,4 @@
+import json
 import sys
 
 import pygame as pg
@@ -27,6 +28,8 @@ def main():
 
 def menu_loop(gm: GameManager) -> None:
     """The main menu loop."""
+    
+    gm.high_score = load_highscore()
 
     while gm.state == State.menu:
         process_events(gm)
@@ -40,6 +43,7 @@ def menu_loop(gm: GameManager) -> None:
 def game_loop(gm: GameManager) -> None:
     """The main game loop."""
 
+    gm.score = 0
     snake: Snake = Snake(gm)
     food: Food = Food(gm, (0, 0))
     food.move()
@@ -62,6 +66,10 @@ def game_loop(gm: GameManager) -> None:
 
 def game_over_loop(gm: GameManager) -> None:
     """The game over loop."""
+
+    if gm.score > gm.high_score:
+        gm.high_score = gm.score
+        save_highscore(gm.score)
 
     while gm.state == State.game_over:
         process_events(gm)
@@ -102,6 +110,7 @@ def process_collisions(gm: GameManager, snake: Snake, food: Food) -> None:
     if snake.wall_hit() or snake.body_hit():
         gm.state = State.game_over
     elif snake.food_hit(food):
+        gm.score += 1
         snake.grow()
         food.move()
 
@@ -146,6 +155,26 @@ def game_over_text(gm: GameManager) -> None:
         gm.small_font.render("Press Enter to play again.", True, Color.text),
         (gm.width * .23, gm.height * .55, gm.width, gm.height),
     )
+
+
+def load_highscore() -> list:
+    """Load the high score."""
+
+    try:
+        with open("high_scores.json", "r") as file:
+            data = json.load(file)
+            return data["high_score"]
+    except FileNotFoundError:
+        with open("high_scores.json", "w") as file:
+            json.dump({"high_score": 0}, file)
+            return 0
+        
+
+def save_highscore(score: int) -> None:
+    """Set the high score."""
+
+    with open("high_scores.json", "w") as file:
+        json.dump({"high_score": score}, file)
 
 
 if __name__ == "__main__":
