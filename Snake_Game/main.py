@@ -47,6 +47,8 @@ def game_loop(gm: GameManager) -> None:
 
         snake.move()
 
+        process_collisions(gm, snake)
+
         # Update the screen
         gm.screen.fill(Color.bg)
         snake.draw()
@@ -88,6 +90,13 @@ def process_events(gm: GameManager, snake: Snake=None) -> None:
                 snake.head.direction = Direction.right
             elif event.key == pg.K_LEFT and snake.head.direction != Direction.right:
                 snake.head.direction = Direction.left
+
+
+def process_collisions(gm: GameManager, snake: Snake) -> None:
+    """Process collisions."""
+
+    if snake.wall_hit():
+        gm.state = State.game_over
 
 
 def menu_text(gm: GameManager) -> None:
