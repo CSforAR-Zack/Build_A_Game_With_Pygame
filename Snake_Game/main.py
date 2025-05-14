@@ -4,7 +4,7 @@ import pygame as pg
 
 from game_manager import GameManager
 from snake import Snake
-from snake_enums import Color, State
+from snake_enums import Color, Direction, State
 
 
 def main():
@@ -42,7 +42,10 @@ def game_loop(gm: GameManager) -> None:
     snake: Snake = Snake(gm)
 
     while gm.state == State.in_game:
-        process_events(gm)
+        gm.tick()
+        process_events(gm, snake)
+
+        snake.move()
 
         # Update the screen
         gm.screen.fill(Color.bg)
@@ -64,7 +67,7 @@ def game_over_loop(gm: GameManager) -> None:
         pg.display.flip()
 
 
-def process_events(gm: GameManager) -> None:
+def process_events(gm: GameManager, snake: Snake=None) -> None:
     """Process events for the game."""
 
     for event in pg.event.get():
@@ -75,6 +78,16 @@ def process_events(gm: GameManager) -> None:
         if event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
             gm.state = State.next_state(gm.state)
             break
+
+        if snake is not None and event.type == pg.KEYDOWN:
+            if event.key == pg.K_UP and snake.head.direction != Direction.down:
+                snake.head.direction = Direction.up
+            elif event.key == pg.K_DOWN and snake.head.direction != Direction.up:
+                snake.head.direction = Direction.down
+            elif event.key == pg.K_RIGHT and snake.head.direction != Direction.left:
+                snake.head.direction = Direction.right
+            elif event.key == pg.K_LEFT and snake.head.direction != Direction.right:
+                snake.head.direction = Direction.left
 
 
 def menu_text(gm: GameManager) -> None:

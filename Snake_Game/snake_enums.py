@@ -6,6 +6,15 @@ class Color:
     text: tuple = (237, 182, 43)
 
 
+class Direction:
+    """Directions used for snake."""
+
+    up: tuple = (0, -1)
+    down: tuple = (0, 1)
+    right: tuple = (1, 0)
+    left: tuple = (-1, 0)
+
+
 class FontFiles:
     """Font class to hold all font files."""
 

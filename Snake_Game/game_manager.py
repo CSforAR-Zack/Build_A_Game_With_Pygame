@@ -23,6 +23,8 @@ class GameManager:
         self.height: int = self.width
         self.screen: pg.Surface = pg.display.set_mode((self.width, self.height))
         self.size: int = self.width // 20
+        self.speed: int = 10
+        self.clock: pg.time.Clock = pg.time.Clock()
 
         self.state: int = State.menu
         self.score: int = 0
@@ -35,3 +37,8 @@ class GameManager:
         """Returns the center of the screen."""
 
         return (self.width // 2, self.height // 2)
+    
+    def tick(self) -> None:
+        """Controls the frame rate of the game."""
+
+        self.clock.tick(self.speed)

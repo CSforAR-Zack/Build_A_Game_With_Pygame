@@ -1,6 +1,7 @@
 import pygame as pg
 
 from game_manager import GameManager
+from snake_enums import Direction
 
 
 class Square:
@@ -11,12 +12,14 @@ class Square:
         gm: GameManager,
         pos: tuple,
         color: tuple,
+        direction: Direction,
     ) -> None:
         self.gm: GameManager = gm
         self.x: int = int(pos[0])
         self.y: int = int(pos[1])
         self.size: int = gm.size
         self.color: tuple = color
+        self.direction: Direction = direction
     
     def draw(self) -> None:
         """Render the square to the screen."""
