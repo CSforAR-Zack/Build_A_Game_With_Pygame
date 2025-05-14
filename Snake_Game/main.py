@@ -3,6 +3,7 @@ import sys
 import pygame as pg
 
 from game_manager import GameManager
+from snake import Snake
 from snake_enums import Color, State
 
 
@@ -38,11 +39,14 @@ def menu_loop(gm: GameManager) -> None:
 def game_loop(gm: GameManager) -> None:
     """The main game loop."""
 
+    snake: Snake = Snake(gm)
+
     while gm.state == State.in_game:
         process_events(gm)
 
         # Update the screen
         gm.screen.fill(Color.bg)
+        snake.draw()
         score_text(gm)
         pg.display.flip()
 

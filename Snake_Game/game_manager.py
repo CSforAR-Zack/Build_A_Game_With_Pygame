@@ -1,5 +1,4 @@
 import pygame as pg
-from pygame.font import Font
 
 from snake_enums import FontFiles, State
 
@@ -23,6 +22,7 @@ class GameManager:
         self.width: int = 800
         self.height: int = self.width
         self.screen: pg.Surface = pg.display.set_mode((self.width, self.height))
+        self.size: int = self.width // 20
 
         self.state: int = State.menu
         self.score: int = 0
@@ -30,3 +30,8 @@ class GameManager:
 
         self.large_font: pg.font.Font = pg.font.Font(FontFiles.large, 48)
         self.small_font: pg.font.Font = pg.font.Font(FontFiles.small, 24)
+        
+    def center(self) -> tuple:
+        """Returns the center of the screen."""
+
+        return (self.width // 2, self.height // 2)
