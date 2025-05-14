@@ -40,6 +40,10 @@ def game_loop(gm: GameManager) -> None:
     """The main game loop."""
 
     snake: Snake = Snake(gm)
+    snake.grow()
+    snake.grow()
+    snake.grow()
+    snake.grow()
 
     while gm.state == State.in_game:
         gm.tick()

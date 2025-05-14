@@ -25,6 +25,29 @@ class Snake:
             segment.x += segment.size * segment.direction[0]
             segment.y += segment.size * segment.direction[1]
 
+        self.update_directions()
+
+    def update_directions(self) -> None:
+        """Update direction of each segment starting with the back."""
+
+        for index in range(len(self.segments)-1, 0, -1):
+            before: Segment = self.segments[index - 1]
+            self.segments[index].direction = before.direction
+
+    def grow(self) -> None:
+        """Add a new segment to the back of the snake."""
+
+        end: Segment = self.segments[-1]
+        new_x: int = (end.x + self.gm.size * -end.direction[0])
+        new_y: int = (end.y + self.gm.size * -end.direction[1])
+        segment: Segment = Segment(
+            self.gm,
+            (new_x, new_y),
+            end.direction,
+        )
+
+        self.segments.append(segment)
+
     def wall_hit(self) -> bool:
         """Check if the snake head is colliding with a wall."""
 
