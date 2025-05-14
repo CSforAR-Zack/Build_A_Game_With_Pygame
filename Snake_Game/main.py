@@ -40,10 +40,8 @@ def game_loop(gm: GameManager) -> None:
     """The main game loop."""
 
     snake: Snake = Snake(gm)
-    snake.grow()
-    snake.grow()
-    snake.grow()
-    snake.grow()
+    for i in range(10):
+        snake.grow()
 
     while gm.state == State.in_game:
         gm.tick()
@@ -99,7 +97,7 @@ def process_events(gm: GameManager, snake: Snake=None) -> None:
 def process_collisions(gm: GameManager, snake: Snake) -> None:
     """Process collisions."""
 
-    if snake.wall_hit():
+    if snake.wall_hit() or snake.body_hit():
         gm.state = State.game_over
 
 

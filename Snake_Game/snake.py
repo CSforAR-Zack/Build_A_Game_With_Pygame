@@ -55,6 +55,18 @@ class Snake:
         y_hit: bool = self.head.y < 0 or self.head.y >= self.gm.height        
 
         return x_hit or y_hit
+    
+    def body_hit(self) -> bool:
+        """Check if if point is colliding with the snake body."""
+        
+        start_index: int = 2
+        point: tuple = self.head.get_pos()
+
+        for index in range(start_index, len(self.segments)):
+            segment: Segment = self.segments[index]
+            if segment.get_pos() == point:
+                return True
+        return False
 
 
 class Segment(Square):

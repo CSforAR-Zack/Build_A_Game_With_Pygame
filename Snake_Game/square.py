@@ -20,6 +20,11 @@ class Square:
         self.size: int = gm.size
         self.color: tuple = color
         self.direction: Direction = direction
+
+    def get_pos(self) -> tuple:
+        """Get the position of the square."""
+
+        return (self.x, self.y)
     
     def draw(self) -> None:
         """Render the square to the screen."""
