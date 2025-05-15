@@ -56,6 +56,8 @@ def game_loop(gm: GameManager) -> None:
     snake: Snake = Snake(gm)
     food: Food = Food(gm, (0, 0))
     food.move()
+    while snake.body_hit(food.get_pos()):
+        food.move()
 
     while gm.state == State.in_game:
         gm.tick()
